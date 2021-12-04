@@ -54,9 +54,8 @@ public class Gateway {
     private static final IotHubClientProtocol protocol = IotHubClientProtocol.MQTT;
     
   //modbus-RTU config
+    private static final String COM = System.getenv("COM");
     private final static int SLAVE_ADDRESS1 = 1;
-    private final static int SLAVE_ADDRESS2 = 2;
-    private final static int SLAVE_ADDRESS3 = 3;
     private final static int BAUD_RATE = 9600;
   
 
@@ -134,7 +133,7 @@ public class Gateway {
             }
         }
         
-        SerialPortWrapper serialParameters = new SerialPortWrapperImpl("COM3", BAUD_RATE, 8, 1, 0, 0, 0);     
+        SerialPortWrapper serialParameters = new SerialPortWrapperImpl(COM, BAUD_RATE, 8, 1, 0, 0, 0);     
         ModbusFactory modbusFactory = new ModbusFactory();
         ModbusMaster master = modbusFactory.createRtuMaster(serialParameters);
 
@@ -147,9 +146,16 @@ public class Gateway {
             	 try {
                      master.init();
                      while(true) {
-                         power1 = CollectionMain.readHoldingRegisters(master, SLAVE_ADDRESS1, 0, 1);
-                         power2 = CollectionMain.readHoldingRegisters(master, SLAVE_ADDRESS2, 0, 1);
-                         power3 = CollectionMain.readHoldingRegisters(master, SLAVE_ADDRESS3, 0, 1);
+                    	 power1 = CollectionMain.readHoldingRegisters(master, SLAVE_ADDRESS1, 1127, 1)*0.1;
+                    	 power2 = CollectionMain.readHoldingRegisters(master, SLAVE_ADDRESS1, 1129, 1)*0.1;
+                    	 power3 = CollectionMain.readHoldingRegisters(master, SLAVE_ADDRESS1, 1131, 1)*0.1;
+                         System.out.print("W1:");
+                     	 System.out.println(power1);
+                     	
+                     	 System.out.print("W2:");
+                     	 System.out.println(power2);
+                     	 System.out.print("W3:");
+                     	 System.out.println(power3);
 
                     	 sendPowerTelemetry();
      					 try {
