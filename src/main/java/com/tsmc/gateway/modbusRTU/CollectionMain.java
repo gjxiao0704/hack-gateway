@@ -1,7 +1,4 @@
 package com.tsmc.gateway.modbusRTU;
-
-import java.util.Arrays;
-
 import com.serotonin.modbus4j.ModbusFactory;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.exception.ModbusInitException;
@@ -18,7 +15,7 @@ public class CollectionMain {
 
     public static void main(String[] args) {
         SerialPortWrapper serialParameters = new
-                SerialPortWrapperImpl("COM4", BAUD_RATE, 8, 1, 0, 0, 0);
+                SerialPortWrapperImpl(COM, BAUD_RATE, 8, 1, 0, 0, 0);
 
         ModbusFactory modbusFactory = new ModbusFactory();
         ModbusMaster master = modbusFactory.createRtuMaster(serialParameters);
@@ -27,12 +24,12 @@ public class CollectionMain {
             master.init();
             while(true) {
             	System.out.print("W1:");
-            	System.out.println(readHoldingRegisters(master, SLAVE_ADDRESS, 1127, 1)*0.1);
+            	System.out.println(readHoldingRegisters(master, SLAVE_ADDRESS, 0, 1)*0.1);
             	
             	System.out.print("W2:");
-            	System.out.println(readHoldingRegisters(master, SLAVE_ADDRESS, 1129, 1)*0.1);
+            	System.out.println(readHoldingRegisters(master, SLAVE_ADDRESS, 1, 1)*0.1);
             	System.out.print("W3:");
-            	System.out.println(readHoldingRegisters(master, SLAVE_ADDRESS, 1131, 1)*0.1);
+            	System.out.println(readHoldingRegisters(master, SLAVE_ADDRESS, 2, 1)*0.1);
             	try {
             		Thread.sleep(5* 1000);
             	} catch (InterruptedException e) {

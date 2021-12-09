@@ -10,31 +10,18 @@ import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.serial.SerialPortWrapper;
 
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class Gateway {
 	private static final Logger logger = LoggerFactory.getLogger(Gateway.class);
-    public enum StatusCode {
-        COMPLETED (200),
-        IN_PROGRESS (202),
-        NOT_FOUND (404);
-
-        private final int value;
-        StatusCode(int value) {
-            this.value = value;
-        }
-    }
+   
 
     // IOT central config
     private static final String MODEL_ID = System.getenv("IOT_MODEL_ID");
@@ -140,7 +127,7 @@ public class Gateway {
         
         new Thread(new Runnable() {
 
-            @SneakyThrows({InterruptedException.class, IOException.class})
+           
             @Override
             public void run() {
             	 try {
